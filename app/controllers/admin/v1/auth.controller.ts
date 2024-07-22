@@ -1,15 +1,29 @@
 import { Request, Response } from "express";
+import response from "../../../../app/helpers/utils/response";
 
 const signIn = (req: Request, res: Response) => {
-  return res.json(req.user);
+  try {
+  } catch (error: any) {
+    return response.errorResponse(
+      res,
+      "Internal server error",
+      { error: error.message },
+      500
+    );
+  }
 };
 
 const signOut = (req: Request, res: Response) => {
-  if (!req.user) return res.sendStatus(401);
-  req.logout((error) => {
-    if (error) return res.sendStatus(400);
-    res.send(200);
-  });
+  const { name, email, password } = req.body;
+  try {
+  } catch (error: any) {
+    return response.errorResponse(
+      res,
+      "Internal server error",
+      { error: error.message },
+      500
+    );
+  }
 };
 
 export default {

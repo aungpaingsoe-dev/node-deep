@@ -4,7 +4,8 @@ import { PrismaClient } from "@prisma/client";
 import path from "path";
 import passport from "passport";
 import session from "express-session";
-import "./app/passport/local-strategy";
+import "./app/helpers/passport/local-strategy";
+import "./app/helpers/passport/jwt-strategy";
 // Routes
 import router from "./routes";
 const prisma = new PrismaClient();
