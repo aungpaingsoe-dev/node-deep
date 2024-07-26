@@ -3,7 +3,7 @@ import { Response } from "express";
 const successResponse = (
   res: Response,
   message: string,
-  data: {},
+  data: any,
   code: number
 ) => {
   return res.status(code).json({
@@ -16,7 +16,7 @@ const successResponse = (
 const errorResponse = (
   res: Response,
   message: string,
-  error: {},
+  error: any,
   code: number
 ) => {
   return res.status(code).json({

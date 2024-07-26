@@ -1,6 +1,5 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
-import { PrismaClient } from "@prisma/client";
 import path from "path";
 import passport from "passport";
 import session from "express-session";
@@ -8,7 +7,6 @@ import "./app/helpers/passport/local-strategy";
 import "./app/helpers/passport/jwt-strategy";
 // Routes
 import router from "./routes";
-const prisma = new PrismaClient();
 const port = process.env.PORT || 3030;
 const app = express();
 
@@ -24,7 +22,6 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
-
 app.use("/api", router);
 
 app.get("/", (req: Request, res: Response) => {

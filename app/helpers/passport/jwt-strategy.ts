@@ -6,10 +6,12 @@ import {
 } from "passport-jwt";
 import passport from "passport";
 import { mockUsers } from "../../../mocks/data";
+import dotenv from 'dotenv'
+dotenv.config();
 
 const opts: StrategyOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: process.env.JWT_SECRET as string,
+  secretOrKey: process.env.JWT_SECRET || '@secret123',
 };
 
 passport.use(
