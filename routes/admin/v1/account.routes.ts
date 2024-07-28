@@ -1,7 +1,8 @@
 import express from "express";
-import accountController from "../../../app/controllers/admin/v1/account.controler";
+import accountController from "../../../app/controllers/admin/v1/account.controller";
 import passport from "passport";
 const router = express.Router();
+import { z } from 'zod'
 
 router.get(
   "/my-profile",

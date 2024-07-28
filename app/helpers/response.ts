@@ -1,5 +1,20 @@
 import { Response } from "express";
 
+export interface errorResponseType {
+  status: boolean;
+  message: string;
+  type: string;
+  details: object[];
+  code: number;
+}
+
+export interface successResponseType {
+  status: boolean;
+  message: string;
+  data: any;
+  code: number;
+}
+
 const successResponse = (
   res: Response,
   message: string,
@@ -16,25 +31,29 @@ const successResponse = (
 const errorResponse = (
   res: Response,
   message: string,
-  error: any,
+  type: any,
+  details: any,
   code: number
 ) => {
   return res.status(code).json({
     status: false,
     message: message,
-    error: error,
+    type: type,
+    details: details,
   });
 };
 
-const messageResponse = (res: Response, message: string, code: number) => {
-  return res.status(code).json({
-    status: false,
-    message: message,
+const errorException = (res: Response, exception: errorResponseType) => {
+  return res.status(exception.code).json({
+    status: exception.status,
+    message: exception.message,
+    type: exception.type,
+    details: exception.details,
   });
 };
 
 export default {
   successResponse,
   errorResponse,
-  messageResponse,
+  errorException,
 };

@@ -1,12 +1,13 @@
-import express, { Request, Response } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
 import path from "path";
 import passport from "passport";
 import session from "express-session";
-import "./app/helpers/passport/local-strategy";
-import "./app/helpers/passport/jwt-strategy";
+import "./app/middlewares/passport/local-strategy";
+import "./app/middlewares/passport/jwt-strategy";
 // Routes
 import router from "./routes";
+import errorHandler from "./app/middlewares/errorHandler";
 const port = process.env.PORT || 3030;
 const app = express();
 
@@ -23,6 +24,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 app.use("/api", router);
+app.use(errorHandler);
 
 app.get("/", (req: Request, res: Response) => {
   return res.sendFile(path.join(__dirname, "./public/index.html"));

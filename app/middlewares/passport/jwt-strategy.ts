@@ -5,20 +5,28 @@ import {
   VerifiedCallback,
 } from "passport-jwt";
 import passport from "passport";
-import { mockUsers } from "../../../mocks/data";
-import dotenv from 'dotenv'
+import dotenv from "dotenv";
+import prisma from "../../../prisma/client";
 dotenv.config();
 
 const opts: StrategyOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: process.env.JWT_SECRET || '@secret123',
+  secretOrKey: process.env.JWT_SECRET || "@secret123",
 };
 
 passport.use(
   new Strategy(opts, async (payload: any, done: VerifiedCallback) => {
     try {
-      const findUser = mockUsers.find((user) => user.id === payload.id);
-      if (findUser) return done(null, findUser);
+      const findUser = await prisma.user.findUnique({
+        where: {
+          id: payload?.id,
+        },
+      });
+      if (findUser) {
+        return done(null, findUser);
+      } else {
+        return done(null, false, { message: "Unauthorized" });
+      }
     } catch (error) {
       return done(error);
     }

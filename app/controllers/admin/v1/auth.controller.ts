@@ -1,21 +1,17 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import response from "../../../helpers/response";
 import userService from "../../../services/admin/v1/user.service";
 import helper from "../../../helpers/helper";
+import exceptions from "../../../helpers/exceptions";
 import jwt from "jsonwebtoken";
 
-const signIn = async (req: Request, res: Response) => {
-  const { email, password } = req.body;
+const signIn = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    const { email, password } = req.body;
     const existingUser = await userService.findUserByEmail(email);
-    
+
     if (!existingUser) {
-      return response.errorResponse(
-        res,
-        "Unauthorized",
-        { email: "User is not exist" },
-        401
-      );
+      return response.errorException(res, exceptions.emailNotFound);
     }
 
     const comparePassword = helper.comparePassword(
@@ -24,50 +20,31 @@ const signIn = async (req: Request, res: Response) => {
     );
 
     if (!comparePassword) {
-      return res.status(400).json({
-        status: false,
-        message: "Unauthorized",
-        error: {
-          password: "Password does not match",
-        },
-      });
+      return response.errorException(res, exceptions.incorrectPassword);
     }
+
+    const token = jwt.sign(
+      {
+        id: existingUser.id,
+      },
+      process.env.JWT_SECRET as string,
+      { expiresIn: "30d" }
+    );
 
     return response.successResponse(
       res,
       "Sign in successfully",
       {
-        token: jwt.sign(
-          {
-            id: existingUser.id,
-          },
-          process.env.JWT_SECRET as string,
-          { expiresIn: "30d" }
-        ),
+        token,
       },
-      200
+      exceptions.statusCodes.OK
     );
-  } catch (error: any) {
-    return response.errorResponse(
-      res,
-      "Internal server error",
-      { error: error.message },
-      500
-    );
+  } catch (error) {
+    next(error);
   }
 };
 
-const signOut = (req: Request, res: Response) => {
-  try {
-  } catch (error: any) {
-    return response.errorResponse(
-      res,
-      "Internal server error",
-      { error: error.message },
-      500
-    );
-  }
-};
+const signOut = async (req: Request, res: Response) => {};
 
 export default {
   signIn,
