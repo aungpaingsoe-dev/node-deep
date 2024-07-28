@@ -7,8 +7,6 @@ const validateBody = (schema: ZodSchema) => {
   return (req: Request, res: Response, next: NextFunction) => {
     const result = schema.safeParse(req.body);
     if (result.error) {
-      console.log(result.error.errors);
-
       const details = result?.error?.errors.map((error) => {
         return {
           field: error.path[0],
