@@ -40,11 +40,18 @@ const signIn = async (req: Request, res: Response, next: NextFunction) => {
       exceptions.statusCodes.OK
     );
   } catch (error) {
+    console.log(error);
     next(error);
   }
 };
 
-const signOut = async (req: Request, res: Response) => {};
+const signOut = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+
+  } catch (error) {
+    next(error)
+  }
+};
 
 export default {
   signIn,

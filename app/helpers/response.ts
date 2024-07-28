@@ -1,10 +1,15 @@
 import { Response } from "express";
 
+interface errorDetail {
+  field: string;
+  issue: string;
+}
+
 export interface errorResponseType {
   status: boolean;
   message: string;
   type: string;
-  details: object[];
+  details: errorDetail[];
   code: number;
 }
 
@@ -32,7 +37,7 @@ const errorResponse = (
   res: Response,
   message: string,
   type: any,
-  details: any,
+  details: object[],
   code: number
 ) => {
   return res.status(code).json({

@@ -1,11 +1,11 @@
 import { errorResponseType } from "./response";
 
 const errorTypes = {
-  notFound: "Not found",
-  validationError: "Validation error",
-  unauthorized: "Unauthorized",
-  forbidden: "Forbidden",
-  internalServerError: "Internal server error",
+  notFound: "not_found",
+  validationError: "validation_error",
+  unauthorized: "unauthorized",
+  forbidden: "forbidden",
+  internalServerError: "internal_server_error",
 };
 
 const statusCodes = {
