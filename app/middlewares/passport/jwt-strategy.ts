@@ -11,7 +11,7 @@ dotenv.config();
 
 const opts: StrategyOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: process.env.JWT_SECRET || "@secret123",
+  secretOrKey: process.env.JWT_SECRET as string,
 };
 
 passport.use(

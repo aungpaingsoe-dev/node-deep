@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import response from "../../../helpers/response";
-import userService from "../../../services/admin/v1/user.service";
+import userService from "../../../services/admin/v1/userService";
 import helper from "../../../helpers/helper";
 import exceptions from "../../../helpers/exceptions";
-import jwt from "jsonwebtoken";
+import { UserType } from "../../../types/user";
 
 const signIn = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -23,33 +23,28 @@ const signIn = async (req: Request, res: Response, next: NextFunction) => {
       return response.errorException(res, exceptions.incorrectPassword);
     }
 
-    const token = jwt.sign(
-      {
-        id: existingUser.id,
-      },
-      process.env.JWT_SECRET as string,
-      { expiresIn: "30d" }
-    );
+    const signInUser = (await userService.findUserById(
+      existingUser.id
+    )) as UserType;
+    signInUser.token = helper.generateToken(existingUser.id, "30d");
 
     return response.successResponse(
       res,
       "Sign in successfully",
       {
-        token,
+        signInUser,
       },
       exceptions.statusCodes.OK
     );
   } catch (error) {
-    console.log(error);
     next(error);
   }
 };
 
 const signOut = async (req: Request, res: Response, next: NextFunction) => {
   try {
-
   } catch (error) {
-    next(error)
+    next(error);
   }
 };
 

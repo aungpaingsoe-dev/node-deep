@@ -1,7 +1,7 @@
 import prisma from "../client";
-import { permissionSeeder } from "./permission-seeder";
-import { roleSeeder } from "./role-seeder";
-import { userSeeder } from "./user-seeder";
+import { permissionSeeder } from "./permissionSeeder";
+import { roleSeeder } from "./roleSeeder";
+import { userSeeder } from "./userSeeder";
 
 const main = async () => {
   try {

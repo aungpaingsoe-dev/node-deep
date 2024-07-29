@@ -25,7 +25,7 @@ const internalServerError: errorResponseType = {
   message: "Internal server error",
   type: errorTypes.internalServerError,
   details: [],
-  code: 500,
+  code: statusCodes.INTERNAL_SERVER_ERROR,
 };
 
 const unauthorized: errorResponseType = {
@@ -33,7 +33,7 @@ const unauthorized: errorResponseType = {
   message: "Unauthorized",
   type: errorTypes.unauthorized,
   details: [],
-  code: 401,
+  code: statusCodes.UNAUTHORIZED,
 };
 
 const emailNotFound: errorResponseType = {
@@ -46,7 +46,7 @@ const emailNotFound: errorResponseType = {
       issue: "Email is not exist",
     },
   ],
-  code: 401,
+  code: statusCodes.UNAUTHORIZED,
 };
 
 const incorrectPassword: errorResponseType = {
@@ -59,8 +59,16 @@ const incorrectPassword: errorResponseType = {
       issue: "Email is not exist",
     },
   ],
-  code: 401,
+  code: statusCodes.UNAUTHORIZED,
 };
+
+const pageNotFound: errorResponseType = {
+  status: false,
+  message: "Route not found",
+  type: errorTypes.notFound,
+  details: [],
+  code: statusCodes.NOT_FOUND,
+}
 
 export default {
   errorTypes,
@@ -69,4 +77,5 @@ export default {
   emailNotFound,
   unauthorized,
   incorrectPassword,
+  pageNotFound
 };

@@ -8,15 +8,15 @@ datasource db {
 }
 
 model User {
-  id        Int             @id @default(autoincrement())
-  name      String          @unique
-  email     String          @unique
-  password  String
-  profile   Profile?
-  isActive  Boolean         @default(false)
-  roles     UserHaveRoles[]
-  createdAt DateTime        @default(now())
-  updatedAt DateTime        @updatedAt
+  id          Int            @id @default(autoincrement())
+  name        String         @unique
+  email       String         @unique
+  password    String
+  profile     Profile?
+  isActive    Boolean        @default(false)
+  roles       UserHaveRole[]
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
 }
 
 model Profile {
@@ -31,23 +31,23 @@ model Profile {
 }
 
 model Role {
-  id          Int                   @id @default(autoincrement())
-  name        String                @unique
-  users       UserHaveRoles[]
-  permissions RoleHavePermissions[]
-  createdAt   DateTime              @default(now())
-  updatedAt   DateTime              @updatedAt
+  id          Int                  @id @default(autoincrement())
+  name        String               @unique
+  users       UserHaveRole[]
+  permissions RoleHavePermission[]
+  createdAt   DateTime             @default(now())
+  updatedAt   DateTime             @updatedAt
 }
 
 model Permission {
-  id        Int                   @id @default(autoincrement())
-  name      String                @unique
-  roles     RoleHavePermissions[]
-  createdAt DateTime              @default(now())
-  updatedAt DateTime              @updatedAt
+  id        Int                  @id @default(autoincrement())
+  name      String               @unique
+  roles     RoleHavePermission[]
+  createdAt DateTime             @default(now())
+  updatedAt DateTime             @updatedAt
 }
 
-model UserHaveRoles {
+model UserHaveRole {
   user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId Int
   role   Role @relation(fields: [roleId], references: [id], onDelete: Cascade)
@@ -56,7 +56,7 @@ model UserHaveRoles {
   @@id([userId, roleId])
 }
 
-model RoleHavePermissions {
+model RoleHavePermission {
   role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
   roleId       Int
   permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)

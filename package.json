@@ -5,9 +5,9 @@
     "start:dev": "nodemon index.ts",
     "db:migrate:dev": "npx prisma migrate diff --from-schema-datamodel prisma/schema.prisma --to-schema-datasource prisma/schema.prisma --script > down.sql && npx prisma migrate dev",
     "db:migrate": "npx prisma migrate deploy",
+    "db:seed": "ts-node prisma/seeds/main.ts",
     "db:migrate:execute": "npx prisma db execute --file ./down.sql --schema prisma/schema.prisma",
-    "db:migrate:reset": "npx prisma migrate reset",
-    "db:seed": "ts-node prisma/seeds/main.ts"
+    "db:migrate:reset": "npx prisma migrate reset"
   },
   "dependencies": {
     "@faker-js/faker": "^8.4.1",
@@ -16,7 +16,6 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "express-session": "^1.18.0",
-    "joi": "^17.13.3",
     "nodemon": "^3.1.4",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
