@@ -1,17 +1,18 @@
 import { NextFunction, Request, Response } from "express";
 
-const getUsers = (req: Request, res: Response) => {
-  if(!req.user) return res.sendStatus(401);
-  return res.json(req.session);
+const getUsers = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+  } catch (error: any) {
+    next(error);  
+  }
 };
 
 const getUser = (req: Request, res: Response) => {};
 
-const createUser = (req: Request, res: Response, next : NextFunction) => {
+const createUser = (req: Request, res: Response, next: NextFunction) => {
   try {
-    
   } catch (error) {
-    next(error)
+    next(error);
   }
 };
 

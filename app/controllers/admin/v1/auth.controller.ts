@@ -3,7 +3,7 @@ import response from "../../../helpers/response";
 import userService from "../../../services/admin/v1/userService";
 import helper from "../../../helpers/helper";
 import exceptions from "../../../helpers/exceptions";
-import { UserType } from "../../../types/user";
+import { UserType } from "../../../types";
 
 const signIn = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -25,9 +25,10 @@ const signIn = async (req: Request, res: Response, next: NextFunction) => {
 
     const signInUser = (await userService.findUserById(
       existingUser.id
-    )) as UserType;
-    signInUser.token = helper.generateToken(existingUser.id, "30d");
+    )) as UserType ;
 
+    signInUser.token = helper.generateToken(existingUser.id, "30d");
+    
     return response.successResponse(
       res,
       "Sign in successfully",

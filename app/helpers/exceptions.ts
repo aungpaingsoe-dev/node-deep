@@ -51,12 +51,12 @@ const emailNotFound: errorResponseType = {
 
 const incorrectPassword: errorResponseType = {
   status: false,
-  message: "Password does not match",
+  message: "Invalid credential",
   type: errorTypes.unauthorized,
   details: [
     {
       field: "password",
-      issue: "Email is not exist",
+      issue: "Password does not match",
     },
   ],
   code: statusCodes.UNAUTHORIZED,

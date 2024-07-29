@@ -1,17 +1,17 @@
 import prisma from "../../../../prisma/client";
 
-const findUserByEmail = async (email: string, include? : object) => {
+const findUserByEmail = async (email: string, include?: object) => {
   const user = await prisma.user.findUnique({
     where: { email },
-    include
+    include,
   });
   return user;
 };
 
-const findUserByName = async (name: string, include : object) => {
+const findUserByName = async (name: string, include: object) => {
   const user = await prisma.user.findUnique({
     where: { name },
-    include
+    include,
   });
   return user;
 };
@@ -20,25 +20,26 @@ const findUserById = async (id: number) => {
   const user = await prisma.user.findUnique({
     where: { id },
     select: {
-      id : true,
-      name : true,
-      email : true,
-      isActive : true,
+      id: true,
+      name: true,
+      email: true,
+      isActive: true,
       createdAt: true,
       updatedAt: true,
-      profile : {
+      profile: {
         select: {
-          id : true,
+          id: true,
           dob: true,
+          bio: true,
           gender: true,
           createdAt: true,
-          updatedAt: true
-        }
-      }
-    }
+          updatedAt: true,
+        },
+      },
+    },
   });
   return user;
-}
+};
 
 export default {
   findUserByEmail,

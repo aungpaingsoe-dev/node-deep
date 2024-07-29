@@ -2,12 +2,14 @@ import { Request, Response, NextFunction } from "express";
 import response from "../../../helpers/response";
 import exceptions from "../../../helpers/exceptions";
 import userService from "../../../services/admin/v1/userService";
-import { User } from "@prisma/client";
 import prisma from "../../../../prisma/client";
+import { UserType } from "../../../types";
+import helper from "../../../helpers/helper";
+import accountService from "../../../services/admin/v1/accountService";
 
 const myProfile = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { id } = req.user as User;
+    const { id } = req.user as UserType;
     const getProfile = await userService.findUserById(id);
 
     return response.successResponse(
@@ -26,16 +28,28 @@ const updateProfile = async (
   res: Response,
   next: NextFunction
 ) => {
-  const user = req.user as User;
+  const user = req.user as UserType;
   const { name, email, isActive, dob, gender, bio } = req.body;
+
   try {
     const authUser = (await userService.findUserByEmail(user.email, {
       profile: true,
-    })) as User;
+    })) as UserType;
 
-    const updateProfile = await prisma.user.upsert({
+    await prisma.user.upsert({
       where: { id: authUser.id },
-      update: { name, email, isActive },
+      update: {
+        name,
+        email,
+        isActive,
+        profile: {
+          update: {
+            dob,
+            bio,
+            gender,
+          },
+        },
+      },
       create: {
         name: authUser.name,
         email: authUser.name,
@@ -43,11 +57,15 @@ const updateProfile = async (
         isActive: authUser.isActive,
         profile: {
           create: {
-          
-          }
-        }
+            dob: authUser.profile.dob,
+            bio: authUser.profile.bio,
+            gender: authUser.profile.gender,
+          },
+        },
       },
     });
+
+    const updateProfile = await userService.findUserById(user.id);
 
     return response.successResponse(
       res,
@@ -60,9 +78,41 @@ const updateProfile = async (
   }
 };
 
-const changePassword = (req: Request, res: Response) => {};
+const changePassword = async (req: Request, res: Response, next: NextFunction) => {
+  const user = req.user as UserType;
+  const { currentPassword, newPassword } = req.body;
+  try {
+    const comparePassword = helper.comparePassword(
+      currentPassword,
+      user.password
+    );
+    
+    if (!comparePassword) {
+      return response.errorException(res, exceptions.incorrectPassword);
+    }
 
-const deleteAccount = (req: Request, res: Response) => {};
+    const updateUserPassword = await accountService.changePassword(
+      user.id,
+      helper.hashPassword(newPassword)
+    );
+
+    return response.successResponse(
+      res,
+      "Change user password successfully",
+      updateUserPassword,
+      exceptions.statusCodes.OK
+    );
+  } catch (error: any) {
+    next(error);
+  }
+};
+
+const deleteAccount = (req: Request, res: Response, next: NextFunction) => {
+  try {
+  } catch (error: any) {
+    next(error);
+  }
+};
 
 export default {
   myProfile,
