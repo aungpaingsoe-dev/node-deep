@@ -6,6 +6,7 @@ export type UserType = {
   isActive: boolean;
   token: string;
   profile: ProfileType;
+  roles: RoleType | any[];
   createdAt: Date;
   updatedAt: Date;
 };
@@ -20,6 +21,13 @@ export type ProfileType = {
   createdAt: Date;
   updatedAt: Date;
 };
+
+export type RoleType = {
+  id : number;
+  name : number;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
 export type PaginateType = {
   data: object[];

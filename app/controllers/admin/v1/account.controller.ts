@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from "express";
 import response from "../../../helpers/response";
 import exceptions from "../../../helpers/exceptions";
-import userService from "../../../services/admin/v1/userService";
+import userService from "../../../services/admin/v1/user.service";
 import prisma from "../../../../prisma/client";
 import { UserType } from "../../../types";
 import helper from "../../../helpers/helper";
-import accountService from "../../../services/admin/v1/accountService";
+import accountService from "../../../services/admin/v1/account.service";
 
 const myProfile = async (req: Request, res: Response, next: NextFunction) => {
   try {

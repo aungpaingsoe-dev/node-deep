@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import response from "../../../helpers/response";
-import userService from "../../../services/admin/v1/userService";
+import userService from "../../../services/admin/v1/user.service";
 import helper from "../../../helpers/helper";
 import exceptions from "../../../helpers/exceptions";
 import { UserType } from "../../../types";

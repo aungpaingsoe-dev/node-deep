@@ -1,17 +1,15 @@
 import { NextFunction, Request, Response } from "express";
 import response from "../../../helpers/response";
 import exceptions from "../../../helpers/exceptions";
-import userService from "../../../services/admin/v1/userService";
+import userService from "../../../services/admin/v1/user.service";
 import prisma from "../../../../prisma/client";
+import helper from "../../../helpers/helper";
 
 const getUsers = async (req: Request, res: Response, next: NextFunction) => {
   const { page = 1, perPage = 10 } = req.query;
 
   try {
-    const users = await userService.getUsers(
-      Number(page),
-      Number(perPage),
-    );
+    const users = await userService.getUsers(Number(page), Number(perPage));
 
     return response.successResponse(
       res,
@@ -88,16 +86,29 @@ const updateUser = async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params;
   const { name, email, password, dob, bio, gender, isActive } = req.body;
   try {
-    const updateUser = await userService.updateUser(
+    const existingUser = await userService.getUserById(Number(id));
+
+    if (!existingUser) {
+      return response.errorException(
+        res,
+        exceptions.dataNotFound,
+        "User not found"
+      );
+    }
+
+    await userService.updateUser(
       Number(id),
       name,
       email,
-      password,
+      helper.hashPassword(password),
+      isActive,
       dob,
       bio,
-      gender,
-      isActive
+      gender
     );
+
+    const updateUser = await userService.getUserById(Number(id));
+
     return response.successResponse(
       res,
       "User update successfully",
@@ -109,7 +120,32 @@ const updateUser = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-const deleteUser = (req: Request, res: Response) => {};
+const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
+  const { id } = req.params;
+
+  try {
+    const existingUser = await userService.getUserById(Number(id));
+
+    if (!existingUser) {
+      return response.errorException(
+        res,
+        exceptions.dataNotFound,
+        "User not found"
+      );
+    }
+
+    await userService.deleteUser(Number(id));
+
+    return response.successResponse(
+      res,
+      "User delete successfully",
+      {},
+      exceptions.statusCodes.OK
+    );
+  } catch (error) {
+    next(error);
+  }
+};
 
 export default {
   getUsers,

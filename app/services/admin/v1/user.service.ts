@@ -50,6 +50,16 @@ const getUserById = async (id: number) => {
       createdAt: true,
       updatedAt: true,
       profile: true,
+      roles: {
+        select: {
+          role: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+        },
+      },
     },
   });
   return user;
@@ -125,6 +135,14 @@ const updateUser = async (
   return updateUser;
 };
 
+const deleteUser = async (userId: number) => {
+  await prisma.user.delete({
+    where: {
+      id: userId,
+    },
+  });
+};
+
 export default {
   getUserByEmail,
   getUserByName,
@@ -132,4 +150,5 @@ export default {
   getUsers,
   createUser,
   updateUser,
+  deleteUser,
 };
