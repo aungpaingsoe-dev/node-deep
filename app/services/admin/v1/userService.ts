@@ -14,6 +14,9 @@ const getUsers = async (page: number, perPage: number) => {
       updatedAt: true,
       profile: true,
     },
+    orderBy: {
+      id: "desc",
+    },
   });
 
   const totalCount = await prisma.user.count();

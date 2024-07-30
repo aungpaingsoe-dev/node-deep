@@ -8,7 +8,10 @@ const getUsers = async (req: Request, res: Response, next: NextFunction) => {
   const { page = 1, perPage = 10 } = req.query;
 
   try {
-    const users = await userService.getUsers(Number(page), Number(perPage));
+    const users = await userService.getUsers(
+      Number(page),
+      Number(perPage),
+    );
 
     return response.successResponse(
       res,
