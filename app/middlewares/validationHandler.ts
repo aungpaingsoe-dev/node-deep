@@ -29,7 +29,29 @@ const validateBody = (schema: ZodSchema) => {
 
 const validateParam = (schema: ZodSchema) => {};
 
-const validateQuery = (schema: ZodSchema) => {};
+const validateQuery = (schema: ZodSchema) => {
+  return (req: Request, res: Response, next: NextFunction) => {
+    const result = schema.safeParse(req.query);
+    if (result.error) {
+      const details = result?.error?.errors.map((error) => {
+        return {
+          field: error.path[0],
+          issue: error.message,
+        };
+      });
+
+      return response.errorResponse(
+        res,
+        "Validation error",
+        exceptions.errorTypes.validationError,
+        details,
+        exceptions.statusCodes.BAD_REQUEST
+      );
+    } else {
+      next();
+    }
+  };
+};
 
 export default {
   validateBody,

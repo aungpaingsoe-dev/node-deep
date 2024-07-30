@@ -2,7 +2,7 @@ import prisma from "../client";
 
 const roles = ["admin", "user"];
 
-export const roleSeeder = async () => {
+const roleSeeder = async () => {
   const adminPermissions = await prisma.permission.findMany();
   const userPermissions = await prisma.permission.findMany({
     where: {
@@ -47,3 +47,5 @@ export const roleSeeder = async () => {
 
   console.log("Roles seeding successfully");
 };
+
+export default roleSeeder;

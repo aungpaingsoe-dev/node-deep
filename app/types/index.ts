@@ -14,9 +14,20 @@ export type ProfileType = {
   id: number;
   dob: string;
   bio: string;
-  gender: any; 
+  gender: any;
   userId: number;
   user: UserType;
   createdAt: Date;
   updatedAt: Date;
 };
+
+export type PaginateType = {
+  data: object[];
+  page: number;
+  perPage: number;
+  totalCount: number;
+  totalPage: number;
+  nextPage: number | null;
+  previousPage: number | null;
+};
+

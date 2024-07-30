@@ -19,7 +19,7 @@ const permissions = [
   "post-delete",
 ];
 
-export const permissionSeeder = async () => {
+const permissionSeeder = async () => {
   for (let permission of permissions) {
     await prisma.permission.upsert({
       where: { name: permission },
@@ -32,3 +32,5 @@ export const permissionSeeder = async () => {
 
   console.log("Permissions seeding successfully");
 };
+
+export default permissionSeeder;

@@ -9,7 +9,7 @@ export interface errorResponseType {
   status: boolean;
   message: string;
   type: string;
-  details: errorDetail[];
+  details?: errorDetail[];
   code: number;
 }
 
@@ -48,10 +48,10 @@ const errorResponse = (
   });
 };
 
-const errorException = (res: Response, exception: errorResponseType) => {
+const errorException = (res: Response, exception: errorResponseType, message? : string) => {
   return res.status(exception.code).json({
     status: exception.status,
-    message: exception.message,
+    message: message || exception.message ,
     type: exception.type,
     details: exception.details,
   });
@@ -60,5 +60,5 @@ const errorException = (res: Response, exception: errorResponseType) => {
 export default {
   successResponse,
   errorResponse,
-  errorException,
+  errorException
 };

@@ -10,7 +10,7 @@ import accountService from "../../../services/admin/v1/accountService";
 const myProfile = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.user as UserType;
-    const getProfile = await userService.findUserById(id);
+    const getProfile = await userService.getUserById(id);
 
     return response.successResponse(
       res,
@@ -32,7 +32,7 @@ const updateProfile = async (
   const { name, email, isActive, dob, gender, bio } = req.body;
 
   try {
-    const authUser = (await userService.findUserByEmail(user.email, {
+    const authUser = (await userService.getUserByEmail(user.email, {
       profile: true,
     })) as UserType;
 
@@ -65,7 +65,7 @@ const updateProfile = async (
       },
     });
 
-    const updateProfile = await userService.findUserById(user.id);
+    const updateProfile = await userService.getUserById(user.id);
 
     return response.successResponse(
       res,

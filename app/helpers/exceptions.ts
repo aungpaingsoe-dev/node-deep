@@ -6,6 +6,7 @@ const errorTypes = {
   unauthorized: "unauthorized",
   forbidden: "forbidden",
   internalServerError: "internal_server_error",
+  badRequest: "bad_request",
 };
 
 const statusCodes = {
@@ -24,7 +25,6 @@ const internalServerError: errorResponseType = {
   status: false,
   message: "Internal server error",
   type: errorTypes.internalServerError,
-  details: [],
   code: statusCodes.INTERNAL_SERVER_ERROR,
 };
 
@@ -32,7 +32,6 @@ const unauthorized: errorResponseType = {
   status: false,
   message: "Unauthorized",
   type: errorTypes.unauthorized,
-  details: [],
   code: statusCodes.UNAUTHORIZED,
 };
 
@@ -47,6 +46,32 @@ const emailNotFound: errorResponseType = {
     },
   ],
   code: statusCodes.UNAUTHORIZED,
+};
+
+const duplicateEmail: errorResponseType = {
+  status: false,
+  message: "Duplicate error",
+  type: errorTypes.validationError,
+  details: [
+    {
+      field: "email",
+      issue: "Email is alrady exist",
+    },
+  ],
+  code: statusCodes.BAD_REQUEST,
+};
+
+const duplicateName: errorResponseType = {
+  status: false,
+  message: "Duplicate error",
+  type: errorTypes.validationError,
+  details: [
+    {
+      field: "name",
+      issue: "Name is alrady exist",
+    },
+  ],
+  code: statusCodes.BAD_REQUEST,
 };
 
 const incorrectPassword: errorResponseType = {
@@ -66,9 +91,15 @@ const pageNotFound: errorResponseType = {
   status: false,
   message: "Route not found",
   type: errorTypes.notFound,
-  details: [],
   code: statusCodes.NOT_FOUND,
-}
+};
+
+const dataNotFound: errorResponseType = {
+  status: false,
+  message: "Data not found",
+  type: errorTypes.notFound,
+  code: statusCodes.NOT_FOUND,
+};
 
 export default {
   errorTypes,
@@ -77,5 +108,8 @@ export default {
   emailNotFound,
   unauthorized,
   incorrectPassword,
-  pageNotFound
+  pageNotFound,
+  dataNotFound,
+  duplicateEmail,
+  duplicateName,
 };

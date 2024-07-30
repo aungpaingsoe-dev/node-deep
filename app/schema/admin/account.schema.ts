@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const dmyDate = z
+export const dmyDate = z
   .string({
     invalid_type_error: "Dob must be string",
   })
@@ -21,13 +21,12 @@ const dmyDate = z
       message: "Invalid date format. Expected format: dd-mm-yyyy",
     }
   )
-  .optional()
-  .nullish();
+  .optional();
 
 const updateProfileSchema = z.object({
   name: z
     .string({
-      invalid_type_error: "Name must be string"
+      invalid_type_error: "Name must be string",
     })
     .optional(),
   email: z
@@ -48,14 +47,12 @@ const updateProfileSchema = z.object({
     .string({
       message: "Bio must be string",
     })
-    .optional()
-    .nullish(),
+    .optional(),
   gender: z
     .enum(["male", "female"], {
       message: "Gender mush be male or female",
     })
-    .optional()
-    .nullish(),
+    .optional(),
 });
 
 const changePasswordSchema = z
@@ -63,23 +60,23 @@ const changePasswordSchema = z
     currentPassword: z
       .string({
         invalid_type_error: "Current password must be string",
-        required_error: "Current password is required"
+        required_error: "Current password is required",
       })
       .nonempty({
         message: "Current password is not be empty",
       }),
     newPassword: z
       .string({
-        invalid_type_error: "New password mush be string",
-        required_error: "Current password is required"
+        invalid_type_error: "New password must be string",
+        required_error: "Current password is required",
       })
       .nonempty({
         message: "New password is not be empty",
       }),
     newPasswordConfirm: z
       .string({
-        invalid_type_error: "New password confirm mush be string",
-        required_error: "New password confirm is required"
+        invalid_type_error: "New password confirm must be string",
+        required_error: "New password confirm is required",
       })
       .nonempty({
         message: "New passwrod confirm is not be empty",

@@ -8,7 +8,7 @@ import { UserType } from "../../../types";
 const signIn = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { email, password } = req.body;
-    const existingUser = await userService.findUserByEmail(email);
+    const existingUser = await userService.getUserByEmail(email);
 
     if (!existingUser) {
       return response.errorException(res, exceptions.emailNotFound);
@@ -23,7 +23,7 @@ const signIn = async (req: Request, res: Response, next: NextFunction) => {
       return response.errorException(res, exceptions.incorrectPassword);
     }
 
-    const signInUser = (await userService.findUserById(
+    const signInUser = (await userService.getUserById(
       existingUser.id
     )) as UserType ;
 
