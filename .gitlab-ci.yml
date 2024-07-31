@@ -28,7 +28,6 @@ build:
   stage: build
   image: node:latest
   script:
-    - npx tsc
     - npm run build 
   artifacts:
     paths:
