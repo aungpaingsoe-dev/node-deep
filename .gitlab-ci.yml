@@ -1,4 +1,0 @@
-build-job:
-  image: node
-  script:
-    - npm install
