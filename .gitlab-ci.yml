@@ -28,7 +28,8 @@ build:
   stage: build
   image: node:latest
   script:
-    - npm run build 
+    - tsc
+    - npx copyfiles -u 1 public/* build/public
   artifacts:
     paths:
       - build/
