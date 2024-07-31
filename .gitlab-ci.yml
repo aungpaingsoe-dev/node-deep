@@ -1,9 +1,36 @@
 stages:
-  - pull
+  - update
+  - install
+  - deploy
 
-# Stage to pull the latest changes
-pull:
-  stage: pull
-  image: node:latest
+# Use a Node.js image for the CI/CD pipeline
+image: node:18
+
+# Cache for dependencies to speed up the build process
+cache:
+  paths:
+    - node_modules/
+
+# Update code from the repository
+update:
+  stage: update
   script:
-    - git pull origin main
+    - git fetch --all
+    - git reset --hard origin/main
+  only:
+    - main
+
+# Install dependencies
+install:
+  stage: install
+  script:
+    - npm install
+
+# Deploy and start the application with PM2
+deploy:
+  stage: deploy
+  script:
+    - npm install -g pm2
+    - pm2 start build/index.js --name "my-app" --no-daemon
+  only:
+    - main
