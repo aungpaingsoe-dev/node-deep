@@ -1,45 +1,10 @@
 stages:
   - pull
-  - install
-  - build
-  - deploy
 
 # Stage to pull the latest changes
 pull:
   stage: pull
   image: node:latest
   script:
-    - git config --global user.email "umgcio7@gmail.com"
-    - git config --global user.name "Umg CIO"
     - git pull origin main
-
-# Stage to install dependencies
-install:
-  stage: install
-  image: node:latest
-  script:
-    - npm install
-  artifacts:
-    paths:
-      - node_modules/
-
-# Stage to build the project
-build:
-  stage: build
-  image: node:latest
-  script:
     - tsc
-    - npx copyfiles -u 1 public/* build/public
-  artifacts:
-    paths:
-      - build/
-
-# Stage to deploy the project
-deploy:
-  stage: deploy
-  image: node:latest
-  script:
-    - npm install -g pm2
-    - pm2 restart ecosystem.config.js
-  only:
-    - main
