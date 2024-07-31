@@ -82,9 +82,9 @@ const createUser = async (name, email, password, dob, bio, gender, isActive) => 
     });
     return createUser;
 };
-const updateUser = async (userId, name, email, password, isActive, dob, bio, gender) => {
+const updateUser = async (id, name, email, password, isActive, dob, bio, gender) => {
     const updateUser = await client_1.default.user.upsert({
-        where: { id: userId },
+        where: { id },
         update: {
             name,
             email,
@@ -114,10 +114,10 @@ const updateUser = async (userId, name, email, password, isActive, dob, bio, gen
     });
     return updateUser;
 };
-const deleteUser = async (userId) => {
+const deleteUser = async (id) => {
     await client_1.default.user.delete({
         where: {
-            id: userId,
+            id,
         },
     });
 };

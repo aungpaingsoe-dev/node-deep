@@ -7,6 +7,7 @@ const response_1 = __importDefault(require("../../../helpers/response"));
 const user_service_1 = __importDefault(require("../../../services/admin/v1/user.service"));
 const helper_1 = __importDefault(require("../../../helpers/helper"));
 const exceptions_1 = __importDefault(require("../../../helpers/exceptions"));
+const auth_service_1 = __importDefault(require("../../../services/admin/v1/auth.service"));
 const signIn = async (req, res, next) => {
     try {
         const { email, password } = req.body;
@@ -20,6 +21,7 @@ const signIn = async (req, res, next) => {
         }
         const signInUser = (await user_service_1.default.getUserById(existingUser.id));
         signInUser.token = helper_1.default.generateToken(existingUser.id, "30d");
+        await auth_service_1.default.createOrUpdateToken(signInUser.id, signInUser.token);
         return response_1.default.successResponse(res, "Sign in successfully", {
             signInUser,
         }, exceptions_1.default.statusCodes.OK);

@@ -12,10 +12,10 @@ const router = express_1.default.Router();
 router
     .route("/")
     .get(passport_1.default.authenticate("jwt", { session: false }), user_controller_1.default.getUsers)
-    .post(validationHandler_1.default.validateBody(user_schema_1.default.createUserSchema), user_controller_1.default.createUser);
+    .post(passport_1.default.authenticate("jwt", { session: false }), validationHandler_1.default.validateBody(user_schema_1.default.createUserSchema), user_controller_1.default.createUser);
 router
     .route("/:id")
-    .get(user_controller_1.default.getUser)
-    .put(user_controller_1.default.updateUser)
-    .delete(user_controller_1.default.deleteUser);
+    .get(passport_1.default.authenticate("jwt", { session: false }), user_controller_1.default.getUser)
+    .put(passport_1.default.authenticate("jwt", { session: false }), validationHandler_1.default.validateBody(user_schema_1.default.updateUserSchema), user_controller_1.default.updateUser)
+    .delete(passport_1.default.authenticate("jwt", { session: false }), user_controller_1.default.deleteUser);
 exports.default = router;

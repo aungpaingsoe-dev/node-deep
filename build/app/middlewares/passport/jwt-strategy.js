@@ -14,13 +14,13 @@ const opts = {
 };
 passport_1.default.use(new passport_jwt_1.Strategy(opts, async (payload, done) => {
     try {
-        const findUser = await client_1.default.user.findUnique({
+        const loginUser = await client_1.default.user.findUnique({
             where: {
                 id: payload?.id,
             },
         });
-        if (findUser) {
-            return done(null, findUser);
+        if (loginUser) {
+            return done(null, loginUser);
         }
         else {
             return done(null, false, { message: "Unauthorized" });

@@ -12,8 +12,10 @@ const generateToken = (userId, expiresIn) => {
         id: userId,
     }, process.env.JWT_SECRET, { expiresIn: expiresIn || "30d" });
 };
+const decodeToken = (token) => jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET);
 exports.default = {
     hashPassword,
     comparePassword,
-    generateToken
+    generateToken,
+    decodeToken,
 };

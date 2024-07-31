@@ -15,16 +15,16 @@ const errorResponse = (res, message, type, details, code) => {
         details: details,
     });
 };
-const errorException = (res, exception, message) => {
+const errorException = (res, exception, message, details) => {
     return res.status(exception.code).json({
         status: exception.status,
         message: message || exception.message,
         type: exception.type,
-        details: exception.details,
+        details: details || exception.details,
     });
 };
 exports.default = {
     successResponse,
     errorResponse,
-    errorException
+    errorException,
 };

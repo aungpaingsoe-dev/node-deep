@@ -15,6 +15,7 @@ model User {
   profile   Profile?
   isActive  Boolean        @default(false)
   roles     UserHaveRole[]
+  news      New[]
   token     Token?
   createdAt DateTime       @default(now())
   updatedAt DateTime       @updatedAt
@@ -32,9 +33,9 @@ model Profile {
 }
 
 model Token {
-  id        Int       @id @default(autoincrement())
-  userId    Int       @unique
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id        Int     @id @default(autoincrement())
+  userId    Int     @unique
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   token     String?
   expiredAt String?
 }
@@ -73,6 +74,85 @@ model RoleHavePermission {
   permissionId Int
 
   @@id([roleId, permissionId])
+}
+
+model Media {
+  id        Int       @id @default(autoincrement())
+  dirPath   String?
+  fileName  String?
+  fileType  String?
+  fileSize  Int?
+  imageURL  String
+  serie     Serie?
+  category  Category?
+  products  Product[]
+  new       New?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Serie {
+  id          Int        @id @default(autoincrement())
+  name        String     @unique
+  categories  Category[]
+  logoImage   Media      @relation(fields: [logoImageId], references: [id], onDelete: Cascade)
+  logoImageId Int        @unique
+  colerCode   String?    @default("#000")
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model Category {
+  id           Int      @id @default(autoincrement())
+  name         String   @unique
+  serie        Serie?   @relation(fields: [serieId], references: [id], onDelete: Cascade)
+  serieId      Int      @unique
+  coverPhoto   Media    @relation(fields: [coverPhotoId], references: [id], onDelete: Cascade)
+  coverPhotoId Int      @unique
+  product      Product?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Product {
+  id              Int           @id @default(autoincrement())
+  name            String        @unique
+  category        Category      @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId      Int           @unique
+  previewImages   Media         @relation(fields: [previewImageId], references: [id], onDelete: Cascade)
+  previewImageId  Int
+  specification   Specification @relation(fields: [specificationId], references: [id], onDelete: Cascade)
+  specificationId Int           @unique
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
+
+model Specification {
+  id        Int      @id @default(autoincrement())
+  name      String
+  space     String
+  product   Product?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Tag {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model New {
+  id           Int      @id @default(autoincrement())
+  title        String
+  coverPhoto   Media    @relation(fields: [coverPhotoId], references: [id], onDelete: Cascade)
+  coverPhotoId Int      @unique
+  content      String   @db.LongText()
+  author       User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId     Int
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
 
 enum Gender {

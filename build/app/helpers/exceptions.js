@@ -91,6 +91,12 @@ const dataNotFound = {
     type: errorTypes.notFound,
     code: statusCodes.NOT_FOUND,
 };
+const duplicateData = {
+    status: false,
+    message: "Duplicate record",
+    type: errorTypes.validationError,
+    code: statusCodes.BAD_REQUEST,
+};
 exports.default = {
     errorTypes,
     statusCodes,
@@ -102,4 +108,5 @@ exports.default = {
     dataNotFound,
     duplicateEmail,
     duplicateName,
+    duplicateData,
 };
