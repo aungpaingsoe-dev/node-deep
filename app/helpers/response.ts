@@ -48,17 +48,22 @@ const errorResponse = (
   });
 };
 
-const errorException = (res: Response, exception: errorResponseType, message? : string) => {
+const errorException = (
+  res: Response,
+  exception: errorResponseType,
+  message?: string,
+  details?: errorDetail
+) => {
   return res.status(exception.code).json({
     status: exception.status,
-    message: message || exception.message ,
+    message: message || exception.message,
     type: exception.type,
-    details: exception.details,
+    details: details || exception.details,
   });
 };
 
 export default {
   successResponse,
   errorResponse,
-  errorException
+  errorException,
 };

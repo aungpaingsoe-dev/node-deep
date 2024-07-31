@@ -25,6 +25,7 @@ export type ProfileType = {
 export type RoleType = {
   id : number;
   name : number;
+  permissions : any[];
   createdAt: Date;
   updatedAt: Date;
 }

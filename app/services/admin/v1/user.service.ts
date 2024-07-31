@@ -93,7 +93,7 @@ const createUser = async (
 };
 
 const updateUser = async (
-  userId: number,
+  id: number,
   name: string,
   email: string,
   password: string,
@@ -103,7 +103,7 @@ const updateUser = async (
   gender: "male" | "female"
 ) => {
   const updateUser = await prisma.user.upsert({
-    where: { id: userId },
+    where: { id },
     update: {
       name,
       email,
@@ -135,10 +135,10 @@ const updateUser = async (
   return updateUser;
 };
 
-const deleteUser = async (userId: number) => {
+const deleteUser = async (id: number) => {
   await prisma.user.delete({
     where: {
-      id: userId,
+      id,
     },
   });
 };

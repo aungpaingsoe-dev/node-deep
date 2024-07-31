@@ -1,5 +1,5 @@
 generator client {
-  provider        = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -35,6 +35,7 @@ model Role {
   name        String               @unique
   users       UserHaveRole[]
   permissions RoleHavePermission[]
+  isActive    Boolean              @default(false)
   createdAt   DateTime             @default(now())
   updatedAt   DateTime             @updatedAt
 }
@@ -43,6 +44,7 @@ model Permission {
   id        Int                  @id @default(autoincrement())
   name      String               @unique
   roles     RoleHavePermission[]
+  isActive  Boolean              @default(false)
   createdAt DateTime             @default(now())
   updatedAt DateTime             @updatedAt
 }
@@ -68,5 +70,4 @@ model RoleHavePermission {
 enum Gender {
   male
   female
-  other
 }
