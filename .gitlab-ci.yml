@@ -7,4 +7,3 @@ pull:
   image: node:latest
   script:
     - git pull origin main
-    - tsc
