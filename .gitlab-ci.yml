@@ -15,8 +15,7 @@ cache:
 update:
   stage: update
   script:
-    - git fetch --all
-    - git reset --hard origin/main
+    - git pull origin main 
   only:
     - main
 
@@ -25,12 +24,3 @@ install:
   stage: install
   script:
     - npm install
-
-# Deploy and start the application with PM2
-deploy:
-  stage: deploy
-  script:
-    - npm install -g pm2
-    - pm2 start build/index.js --name "my-app" --no-daemon
-  only:
-    - main
