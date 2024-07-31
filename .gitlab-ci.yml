@@ -28,8 +28,6 @@ build:
   stage: build
   image: node:latest
   script:
-    - npm install typescript
-    - npm install
     - npx tsc
     - npm run build 
   artifacts:
