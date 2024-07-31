@@ -4,6 +4,8 @@ import userService from "../../../services/admin/v1/user.service";
 import helper from "../../../helpers/helper";
 import exceptions from "../../../helpers/exceptions";
 import { UserType } from "../../../types";
+import prisma from "../../../../prisma/client";
+import authService from "../../../services/admin/v1/auth.service";
 
 const signIn = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -25,10 +27,11 @@ const signIn = async (req: Request, res: Response, next: NextFunction) => {
 
     const signInUser = (await userService.getUserById(
       existingUser.id
-    )) as UserType ;
+    )) as UserType;
 
     signInUser.token = helper.generateToken(existingUser.id, "30d");
-    
+    await authService.createOrUpdateToken(signInUser.id, signInUser.token);
+
     return response.successResponse(
       res,
       "Sign in successfully",

@@ -12,6 +12,7 @@ router
     roleController.getRoles
   )
   .post(
+    passport.authenticate("jwt", { session: false }),
     validationHandler.validateBody(roleSchema.createRoleSchema),
     roleController.createRole
   );
@@ -20,9 +21,13 @@ router
   .route("/:id")
   .get(roleController.getRole)
   .put(
+    passport.authenticate("jwt", { session: false }),
     validationHandler.validateBody(roleSchema.updateRoleSchema),
     roleController.updateRole
   )
-  .delete(roleController.deleteRole);
+  .delete(
+    passport.authenticate("jwt", { session: false }),
+    roleController.deleteRole
+  );
 
 export default router;

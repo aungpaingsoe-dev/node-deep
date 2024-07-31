@@ -15,6 +15,7 @@ model User {
   profile   Profile?
   isActive  Boolean        @default(false)
   roles     UserHaveRole[]
+  token     Token?
   createdAt DateTime       @default(now())
   updatedAt DateTime       @updatedAt
 }
@@ -28,6 +29,14 @@ model Profile {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Token {
+  id        Int       @id @default(autoincrement())
+  userId    Int       @unique
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token     String?
+  expiredAt String?
 }
 
 model Role {
@@ -44,7 +53,6 @@ model Permission {
   id        Int                  @id @default(autoincrement())
   name      String               @unique
   roles     RoleHavePermission[]
-  isActive  Boolean              @default(false)
   createdAt DateTime             @default(now())
   updatedAt DateTime             @updatedAt
 }

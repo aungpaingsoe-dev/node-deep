@@ -16,10 +16,12 @@ const generateToken = (userId: number, expiresIn: string) => {
   );
 };
 
+const decodeToken = (token: string) =>
+  jwt.verify(token, process.env.JWT_SECRET as string);
+
 export default {
   hashPassword,
   comparePassword,
-  generateToken
+  generateToken,
+  decodeToken,
 };
-
-

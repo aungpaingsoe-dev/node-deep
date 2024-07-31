@@ -12,14 +12,22 @@ router
     userController.getUsers
   )
   .post(
+    passport.authenticate("jwt", { session: false }),
     validationHandler.validateBody(userSchema.createUserSchema),
     userController.createUser
   );
 
 router
   .route("/:id")
-  .get(userController.getUser)
-  .put(userController.updateUser)
-  .delete(userController.deleteUser);
+  .get(passport.authenticate("jwt", { session: false }), userController.getUser)
+  .put(
+    passport.authenticate("jwt", { session: false }),
+    validationHandler.validateBody(userSchema.updateUserSchema),
+    userController.updateUser
+  )
+  .delete(
+    passport.authenticate("jwt", { session: false }),
+    userController.deleteUser
+  );
 
 export default router;

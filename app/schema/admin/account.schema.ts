@@ -72,6 +72,9 @@ const changePasswordSchema = z
       })
       .nonempty({
         message: "New password is not be empty",
+      })
+      .min(4, {
+        message: "New password must be at least 4 characters",
       }),
     newPasswordConfirm: z
       .string({
@@ -80,6 +83,9 @@ const changePasswordSchema = z
       })
       .nonempty({
         message: "New passwrod confirm is not be empty",
+      })
+      .min(4, {
+        message: "New password confirm must be at least 4 characters",
       }),
   })
   .refine((args) => args.newPassword === args.newPasswordConfirm, {

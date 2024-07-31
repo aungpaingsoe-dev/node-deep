@@ -7,6 +7,7 @@ import {
 import passport from "passport";
 import dotenv from "dotenv";
 import prisma from "../../../prisma/client";
+import helper from "../../helpers/helper";
 dotenv.config();
 
 const opts: StrategyOptions = {
@@ -17,13 +18,14 @@ const opts: StrategyOptions = {
 passport.use(
   new Strategy(opts, async (payload: any, done: VerifiedCallback) => {
     try {
-      const findUser = await prisma.user.findUnique({
+      const loginUser = await prisma.user.findUnique({
         where: {
           id: payload?.id,
         },
       });
-      if (findUser) {
-        return done(null, findUser);
+
+      if (loginUser) {
+        return done(null, loginUser);
       } else {
         return done(null, false, { message: "Unauthorized" });
       }
